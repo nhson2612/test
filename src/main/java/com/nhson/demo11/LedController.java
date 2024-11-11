@@ -14,7 +14,7 @@ public class LedController {
     @Autowired
     private LedWebSocketHandler webSocketHandler;
 
-    private static Map<String,String> ledConfig = new HashMap<>();>
+    private static Map<String,String> ledConfig = new HashMap<>();
 
     @PostMapping("/update")
     public void updateLedStatus(@RequestBody boolean status) throws IOException {
