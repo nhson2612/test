@@ -1,5 +1,6 @@
 package com.nhson.demo11;
 
+import java.util.Date;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ public class LedWebSocketHandler extends TextWebSocketHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(LedWebSocketHandler.class);
 
-    private static boolean ledStatus = false;
+    private static Led led = new Led(false, new Date());
     private static final CopyOnWriteArrayList<WebSocketSession> sessions = new CopyOnWriteArrayList<>();  // Sử dụng CopyOnWriteArrayList
 
     @Override
@@ -24,7 +25,7 @@ public class LedWebSocketHandler extends TextWebSocketHandler {
         LOG.info("New WebSocket connection established. Total clients: {}", sessions.size());
 
         // Gửi trạng thái hiện tại cho client mới kết nối
-        session.sendMessage(new TextMessage(Boolean.toString(ledStatus)));
+        session.sendMessage(new TextMessage(led.toString()));
     }
 
     @Override
@@ -33,9 +34,9 @@ public class LedWebSocketHandler extends TextWebSocketHandler {
         LOG.info("Received message from client: {}", payload);
 
         if ("true".equalsIgnoreCase(payload)) {
-            ledStatus = true;
+            led.setOn(true);
         } else if ("false".equalsIgnoreCase(payload)) {
-            ledStatus = false;
+            led.setOn(false);
         }
 
         // Phát thông điệp cập nhật trạng thái LED tới tất cả client
@@ -43,9 +44,9 @@ public class LedWebSocketHandler extends TextWebSocketHandler {
     }
 
     private void broadcastLedStatus() throws IOException {
-        TextMessage message = new TextMessage(Boolean.toString(ledStatus));
+        TextMessage message = new TextMessage(led.toString());
 
-        LOG.info("Broadcasting LED status to {} clients: {}", sessions.size(), ledStatus);
+        LOG.info("Broadcasting LED status to {} clients: {}", sessions.size(), led.toString());
 
         for (WebSocketSession session : sessions) {
             if (session.isOpen()) {
@@ -64,12 +65,13 @@ public class LedWebSocketHandler extends TextWebSocketHandler {
 
     // Phương thức để cập nhật trạng thái từ REST API
     public void setLedStatus(boolean status) throws IOException {
-        ledStatus = status;
-        LOG.info("LED status updated from REST API to: {}", ledStatus);
+        led.setOn(status);
+        LOG.info("LED status updated from REST API to: {}", status);
         broadcastLedStatus();
     }
 
     public boolean getLedStatus() {
-        return ledStatus;
+        return led.isOn();
     }
+
 }
