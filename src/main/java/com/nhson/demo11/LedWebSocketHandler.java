@@ -18,14 +18,12 @@ public class LedWebSocketHandler extends TextWebSocketHandler {
     private static final Logger LOG = LoggerFactory.getLogger(LedWebSocketHandler.class);
 
     private static Led led = new Led(false, null);
-    private static final CopyOnWriteArrayList<WebSocketSession> sessions = new CopyOnWriteArrayList<>();  // Sử dụng CopyOnWriteArrayList
+    private static final CopyOnWriteArrayList<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        sessions.add(session);  // Thêm session vào CopyOnWriteArrayList
+        sessions.add(session);
         LOG.info("New WebSocket connection established. Total clients: {}", sessions.size());
-
-        // Gửi trạng thái hiện tại cho client mới kết nối
         session.sendMessage(new TextMessage(led.toString()));
     }
 

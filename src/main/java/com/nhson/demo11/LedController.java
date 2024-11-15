@@ -46,4 +46,9 @@ public class LedController {
         Date targetDate = java.sql.Timestamp.valueOf(targetDateTime);
         webSocketHandler.setLedTime(targetDate);
     }
+
+    @GetMapping
+    public Led getLedConfig(){
+        return new Led(webSocketHandler.getLedStatus(), webSocketHandler.getLedTime());
+    }
 }
