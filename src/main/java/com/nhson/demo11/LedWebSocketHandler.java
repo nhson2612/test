@@ -1,5 +1,6 @@
 package com.nhson.demo11;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -16,7 +17,7 @@ public class LedWebSocketHandler extends TextWebSocketHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(LedWebSocketHandler.class);
 
-    private static Led led = new Led(false, new Date());
+    private static Led led = new Led(false, null);
     private static final CopyOnWriteArrayList<WebSocketSession> sessions = new CopyOnWriteArrayList<>();  // Sử dụng CopyOnWriteArrayList
 
     @Override
@@ -39,7 +40,6 @@ public class LedWebSocketHandler extends TextWebSocketHandler {
             led.setOn(false);
         }
 
-        // Phát thông điệp cập nhật trạng thái LED tới tất cả client
         broadcastLedStatus();
     }
 
@@ -63,7 +63,6 @@ public class LedWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
-    // Phương thức để cập nhật trạng thái từ REST API
     public void setLedStatus(boolean status) throws IOException {
         led.setOn(status);
         LOG.info("LED status updated from REST API to: {}", status);
@@ -74,4 +73,12 @@ public class LedWebSocketHandler extends TextWebSocketHandler {
         return led.isOn();
     }
 
+    public void setLedTime(Date ledTime) throws IOException {
+        led.setDate(ledTime);
+        broadcastLedStatus();
+    }
+
+    public Date getLedTime(){
+        return led.getDate();
+    }
 }

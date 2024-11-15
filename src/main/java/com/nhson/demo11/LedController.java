@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +17,6 @@ public class LedController {
     @Autowired
     private LedWebSocketHandler webSocketHandler;
 
-    private static Map<String,String> ledConfig = new HashMap<>();
 
     @PostMapping("/update")
     public void updateLedStatus(@RequestBody boolean status) throws IOException {
@@ -27,12 +29,21 @@ public class LedController {
         return webSocketHandler.getLedStatus();
     }
 
-    @PostMapping("/config")
-    public void updateLedConfig(@RequestBody Map<String, String> config) {
-        ledConfig.putAll(config);
-    }
-    @GetMapping("/config")
-    public Map<String, String> getLedConfig() {
-        return ledConfig;
+    @PostMapping("/update-time")
+    public void setLedTime(@RequestBody Map<String, String> timeRequest) throws IOException {
+        LocalDateTime now = LocalDateTime.now();
+        int hour = Integer.parseInt(timeRequest.get("hour"));
+        int minute = Integer.parseInt(timeRequest.get("minute"));
+        LocalTime requestedTime = LocalTime.of(hour, minute);
+
+        LocalDateTime targetDateTime;
+
+        if (now.toLocalTime().isBefore(requestedTime)) {
+            targetDateTime = LocalDateTime.of(now.toLocalDate(), requestedTime);
+        } else {
+            targetDateTime = LocalDateTime.of(now.toLocalDate().plusDays(1), requestedTime);
+        }
+        Date targetDate = java.sql.Timestamp.valueOf(targetDateTime);
+        webSocketHandler.setLedTime(targetDate);
     }
 }
