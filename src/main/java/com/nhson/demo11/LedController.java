@@ -34,17 +34,8 @@ public class LedController {
         LocalDateTime now = LocalDateTime.now();
         int hour = Integer.parseInt(timeRequest.get("hour"));
         int minute = Integer.parseInt(timeRequest.get("minute"));
-        LocalTime requestedTime = LocalTime.of(hour, minute);
-
-        LocalDateTime targetDateTime;
-
-        if (now.toLocalTime().isBefore(requestedTime)) {
-            targetDateTime = LocalDateTime.of(now.toLocalDate(), requestedTime);
-        } else {
-            targetDateTime = LocalDateTime.of(now.toLocalDate().plusDays(1), requestedTime);
-        }
-        Date targetDate = java.sql.Timestamp.valueOf(targetDateTime);
-        webSocketHandler.setLedTime(targetDate);
+        String timeString = hour + ":" + minute;
+        webSocketHandler.setLedTime(timeString);
     }
 
     @GetMapping

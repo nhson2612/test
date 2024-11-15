@@ -4,34 +4,34 @@ import java.util.Date;
 
 public class Led {
     private boolean isOn;
-    private String time;
+    private Date date;
 
-    public Led(boolean isOn, String time) {
+    public Led(boolean isOn, Date date) {
         this.isOn = isOn;
-        this.time = time;
+        this.date = date;
     }
 
     public void setOn(boolean on) {
         isOn = on;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public boolean isOn() {
         return isOn;
     }
 
-    public String getTime() {
-        return time;
+    public Date getDate() {
+        return date;
     }
 
     public String toString(){
         return "" +
                 "{" +
                 "isOn=" + isOn +
-                ", time=" + time +
+                ", date=" + date +
                 "}";
     }
 

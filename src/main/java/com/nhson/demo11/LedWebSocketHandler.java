@@ -71,12 +71,12 @@ public class LedWebSocketHandler extends TextWebSocketHandler {
         return led.isOn();
     }
 
-    public void setLedTime(Date ledTime) throws IOException {
-        led.setDate(ledTime);
+    public void setLedTime(String ledTime) throws IOException {
+        led.setTime(ledTime);
         broadcastLedStatus();
     }
 
-    public Date getLedTime(){
-        return led.getDate();
+    public String getLedTime(){
+        return led.getTime();
     }
 }
