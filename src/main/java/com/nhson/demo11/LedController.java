@@ -47,7 +47,7 @@ public class LedController {
 
     @GetMapping
     public ResponseEntity<Led> getLedConfig(){
-        Led led = new Led(webSocketHandler.getLedStatus(), webSocketHandler.getLedTime());
+        Led led = new Led(webSocketHandler.getLedStatus(), webSocketHandler.getLedTime(), webSocketHandler.getLedEndTime());
         return ResponseEntity.ok(led);
     }
 }

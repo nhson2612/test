@@ -7,9 +7,10 @@ public class Led {
     private String time;
     private String endTime;
 
-    public Led(boolean isOn, String time) {
+    public Led(boolean isOn, String time,String endTime) {
         this.isOn = isOn;
         this.time = time;
+        this.endTime = endTime;
     }
 
     public void setOn(boolean on) {
@@ -27,6 +28,10 @@ public class Led {
 
     public String getTime() {
         return time;
+    }
+
+    public String getEndTime() {
+        return endTime;
     }
 
     public String toString(){
