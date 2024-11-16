@@ -20,19 +20,9 @@ public class LedController {
     private LedWebSocketHandler webSocketHandler;
 
     @PostMapping("/update")
-    public ResponseEntity updateLedStatus(@RequestBody boolean status, @RequestHeader("Authorization") String token) throws IOException {
-        String usernameReq;
-        String passwordReq ;
-        if (token.contains(":")) {
-            String[] credentials = token.split(":");
-            usernameReq = credentials[0];
-            passwordReq = credentials[1];
-            if(usernameReq.equals("admin") && passwordReq.equals("admin")){
-                webSocketHandler.setLedStatus(status); // Cập nhật trạng thái và gửi cho tất cả các client WebSocket
-                return ResponseEntity.ok().build();
-            }
-        }
-        return ResponseEntity.status(401).build();
+    public ResponseEntity updateLedStatus(@RequestBody boolean status) throws IOException {
+        webSocketHandler.setLedStatus(status); // Cập nhật trạng thái và gửi cho tất cả các client WebSocket
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/status")
@@ -43,21 +33,16 @@ public class LedController {
     }
 
     @PostMapping("/update-time")
-    public ResponseEntity setLedTime(@RequestBody Map<String, String> timeRequest, @RequestHeader("Authorization") String token) throws IOException {
-        if (token.contains(":")) {
-            String[] credentials = token.split(":");
-            String usernameReq = credentials[0];
-            String passwordReq = credentials[1];
-            if(usernameReq.equals("admin") && passwordReq.equals("admin")) {
-                LocalDateTime now = LocalDateTime.now();
-                int hour = Integer.parseInt(timeRequest.get("hour"));
-                int minute = Integer.parseInt(timeRequest.get("minute"));
-                String timeString = hour + ":" + minute;
-                webSocketHandler.setLedTime(timeString);
-                return ResponseEntity.ok().build();
-            }
-        }
-        return ResponseEntity.status(401).build();
+    public ResponseEntity setLedTime(@RequestBody Map<String, String> timeRequest) throws IOException {
+        LocalDateTime now = LocalDateTime.now();
+        int hour = Integer.parseInt(timeRequest.get("hour"));
+        int minute = Integer.parseInt(timeRequest.get("minute"));
+        String timeString = hour + ":" + minute;
+        int endHour = Integer.parseInt(timeRequest.get("endHour"));
+        int endMinute = Integer.parseInt(timeRequest.get("endMinute"));
+        String endTimeString = endHour + ":" + endMinute;
+        webSocketHandler.setLedTime(timeString, endTimeString);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping

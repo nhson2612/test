@@ -71,8 +71,8 @@ public class LedWebSocketHandler extends TextWebSocketHandler {
         return led.isOn();
     }
 
-    public void setLedTime(String ledTime) throws IOException {
-        led.setTime(ledTime);
+    public void setLedTime(String ledTime,String ledEndTime) throws IOException {
+        led.setTime(ledTime,ledEndTime);
         broadcastLedStatus();
     }
 

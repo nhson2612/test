@@ -5,6 +5,7 @@ import java.util.Date;
 public class Led {
     private boolean isOn;
     private String time;
+    private String endTime;
 
     public Led(boolean isOn, String time) {
         this.isOn = isOn;
@@ -15,8 +16,9 @@ public class Led {
         isOn = on;
     }
 
-    public void setTime(String time) {
+    public void setTime(String time,String endTime) {
         this.time = time;
+        this.endTime = endTime;
     }
 
     public boolean isOn() {
@@ -32,6 +34,7 @@ public class Led {
                 "{" +
                 "isOn=" + isOn +
                 ", time=" + time +
+                ", endTime=" + endTime +
                 "}";
     }
 
