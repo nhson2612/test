@@ -4,3 +4,35 @@ Content-Type: application/json
 {
   true
 }
+
+
+### GET CONFIG
+GET https://test-1-8yfc.onrender.com/led
+
+### UPDATE LED STATUS
+POST https://test-1-8yfc.onrender.com/led/update
+Content-Type: application/json
+
+{
+  "true"
+}
+
+### UPDATE LED TIME
+POST https://test-1-8yfc.onrender.com/led/update-time
+Content-Type: application/json
+
+{
+    "hour": "12",
+    "minute": "12"
+}
+
+
+### POST LED STATUS
+POST http://localhost:8080/led/update-time
+Authorization: admin:admin
+Content-Type: application/json
+
+{
+    "hour": "12",
+    "minute": "12"
+}
