@@ -50,4 +50,10 @@ public class LedController {
         Led led = new Led(webSocketHandler.getLedStatus(), webSocketHandler.getLedTime(), webSocketHandler.getLedEndTime(), webSocketHandler.isLedLightSensor());
         return ResponseEntity.ok(led);
     }
+
+    @PostMapping("/update-light-sensor")
+    public ResponseEntity updateLedLightSensor(@RequestBody boolean status) throws IOException {
+        webSocketHandler.setLedLightSensor(status);
+        return ResponseEntity.ok().build();
+    }
 }
