@@ -36,3 +36,10 @@ Content-Type: application/json
     "hour": "12",
     "minute": "12"
 }
+
+### GET LED
+GET http://localhost:8080/led
+
+
+###
+ws

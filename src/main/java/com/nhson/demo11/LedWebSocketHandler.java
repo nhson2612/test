@@ -17,7 +17,7 @@ public class LedWebSocketHandler extends TextWebSocketHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(LedWebSocketHandler.class);
 
-    private static Led led = new Led(false, null,null);
+    private static Led led = new Led(false, null,null,false);
     private static final CopyOnWriteArrayList<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
 
     @Override
@@ -82,5 +82,14 @@ public class LedWebSocketHandler extends TextWebSocketHandler {
 
     public String getLedEndTime(){
         return led.getEndTime();
+    }
+
+    public void setLedLightSensor(boolean lightSensor) throws IOException {
+        led.setLightSensor(lightSensor);
+        broadcastLedStatus();
+    }
+
+    public boolean isLedLightSensor() {
+        return led.isLightSensor();
     }
 }

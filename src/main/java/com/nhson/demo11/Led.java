@@ -6,11 +6,21 @@ public class Led {
     private boolean isOn;
     private String time;
     private String endTime;
+    private boolean lightSensor;
 
-    public Led(boolean isOn, String time,String endTime) {
+    public Led(boolean isOn, String time,String endTime,boolean lightSensor) {
         this.isOn = isOn;
         this.time = time;
         this.endTime = endTime;
+        this.lightSensor = lightSensor;
+    }
+
+    public void setLightSensor(boolean lightSensor) {
+        this.lightSensor = lightSensor;
+    }
+
+    public boolean isLightSensor() {
+        return lightSensor;
     }
 
     public void setOn(boolean on) {
@@ -40,6 +50,7 @@ public class Led {
                 "isOn=" + isOn +
                 ", time=" + time +
                 ", endTime=" + endTime +
+                ", lightSensor=" + lightSensor +
                 "}";
     }
 
